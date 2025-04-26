@@ -9,6 +9,8 @@ import  FreelancerDashboard from './pages/FreelancerDashboard.jsx';
 import  {Login}  from './pages/Login.jsx';
 import  {Register}  from './pages/register';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import  ProjectForm from './components/client/ProjectForm.jsx';
+import { ProjectProvider } from './contexts/ProjectContext.jsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +35,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
       <UserProvider>
+      <ProjectProvider>
         <BrowserRouter>
           <Routes>
             {/* Public routes */}
@@ -44,6 +47,7 @@ function App() {
             <Route element={<ProtectedRoute requiredRole="client" />}>
               <Route path="/client/dashboard" element={<ClientDashboard/>} />
               {/* Other client routes */}
+              <Route path="/post-project" element={<ProjectForm/>} />
             </Route>
             
             {/* Protected freelancer routes */}
@@ -57,6 +61,7 @@ function App() {
             {/* <Route path="*" element={<Navigate to="/404" />} /> */}
           </Routes>
         </BrowserRouter>
+        </ProjectProvider>
       </UserProvider>
       </ChakraProvider>
     </QueryClientProvider>

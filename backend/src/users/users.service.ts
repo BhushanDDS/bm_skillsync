@@ -20,6 +20,14 @@ export class UsersService {
         const user = this.repo.create(dto);
         return this.repo.save(user);
       }
+
+      async findByProjectRole(id: number) {
+        return this.repo.findOne({
+          where: { id },
+          select: ['id', 'role'], // Explicitly select role
+          relations: [] // Add any relations if needed
+        });
+      }
       
       async getAllUsers() {
         return this.repo.find();
