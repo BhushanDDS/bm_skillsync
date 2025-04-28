@@ -8,9 +8,13 @@ import { SkillsModule } from './skills/skills.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { CloudinaryConfigModule } from './config/cloudinary-config.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
+  imports: [   ConfigModule.forRoot({
+    isGlobal: true,
+  }),TypeOrmModule.forRoot({
     type: 'mysql',
     host: 'localhost',
     port: 3306,
@@ -22,6 +26,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   synchronize: false,
     logging: ['query', 'error'], 
     logger: 'advanced-console', 
-  }), UsersModule, ProjectsModule, BidsModule, MilestonesModule, MessagesModule, SkillsModule, CategoriesModule, AuthModule]
+  }), UsersModule, ProjectsModule, BidsModule, MilestonesModule, MessagesModule, SkillsModule, CategoriesModule, AuthModule,CloudinaryConfigModule]
 })
 export class AppModule {}

@@ -104,18 +104,21 @@ function ProjectDetails() {
       {/* --- Conditional Section Below Project Info --- */}
 
       <Box maxW="900px" mx="auto" p={6} bg="white" rounded="lg" shadow="sm" mb={10}>
-        {user.role?.includes('freelancer') && (
-          <Box mb={8}>
-            <CreateBid projectId={p.id} /> 
-            pass
-          </Box>
-        )}
+      
 
         {/* ShowBids should be visible for both freelancer and client */}
         <Box>
           <GetAllBids projectId={p.id} isClDb={false} />
           pass
         </Box>
+
+
+        {user.role?.includes('freelancer') && (
+          <Box mb={8}>
+            <CreateBid projectId={p.id} /> 
+            pass
+          </Box>
+        )}
       </Box>
 
       {/* Go Back Button */}

@@ -12,10 +12,11 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import  ProjectForm from './components/client/ProjectForm.jsx';
 import UpdateProject from './components/project/UpdateProject.jsx';
 import { ProjectProvider } from './contexts/ProjectContext.jsx';
-import ProjectDetails from './components/project/ProjectDetails.jsx';
 import ViewProjects from './components/project/ViewProjects.jsx';
 import BidCard from './components/bidding/BidCard.jsx';
 import ProjectDetailsClient from './components/client/ProjectDetailsClient.jsx';
+import ProjectDetailsFreelancer from './components/freelancer/ProjectDetailsFreelancer.jsx';
+import ProjectDetails from './components/project/ProjectDetails.jsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,6 +49,7 @@ function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
             <Route path='/projectdetails/:projectId' element={<ProjectDetails/>}/>
+            
             <Route path="/view-projects" element={<ViewProjects/>} />  
 
             {/* Protected client routes */}
@@ -64,6 +66,8 @@ function App() {
             {/* Protected freelancer routes */}
             <Route element={<ProtectedRoute requiredRole="freelancer" />}>
               <Route path="/freelancer/dashboard" element={<FreelancerDashboard/>} />
+              <Route path='/projectdetails/:projectId' element={<ProjectDetailsFreelancer/>}/>
+
 
 
               {/* Other freelancer routes */}

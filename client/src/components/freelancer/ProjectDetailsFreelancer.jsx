@@ -7,7 +7,7 @@ import GoToDashboardButton from '../GoToDashboard';
 import GetAllBids from '../bidding/GetAllBids';
 import ProjectMilestones from '../../pages/ProjectMilestones';
 
-function ProjectDetailsClient() {
+function ProjectDetailsFreelancer() {
   const { fetchProject } = useProjectContext();
   const { projectId } = useParams();
 
@@ -99,9 +99,9 @@ function ProjectDetailsClient() {
       {/* Conditional Section */}
       <Box mt={8}>
         {p.status === 'open' ? (
-          <GetAllBids projectId={p.id} isClDb={true} />
+          <GetAllBids projectId={p.id} isClDb={false} />
         ) : p.status === 'assigned' || p.status === 'closed' ? (
-          <ProjectMilestones projectId={p.id} role={'client'} />
+          <ProjectMilestones projectId={p.id} role={'freelancer'} />
         ) : null}
       </Box>
 
@@ -109,4 +109,4 @@ function ProjectDetailsClient() {
   );
 }
 
-export default ProjectDetailsClient;
+export default ProjectDetailsFreelancer;

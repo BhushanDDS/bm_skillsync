@@ -1,7 +1,19 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { bidsApi } from '../../api/bids.js';
-
+import {
+  Box,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Button,
+  Alert,
+  AlertIcon,
+  VStack,
+  useColorModeValue
+} from '@chakra-ui/react';
 const CreateBid = ({ projectId }) => {
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
@@ -46,72 +58,93 @@ const CreateBid = ({ projectId }) => {
     e.preventDefault();
     createBidMutation.mutate(formData);
   };
-
   return (
-    <div className="create-bid-container">
-      <h2>Place Your Bid</h2>
-      
+    <Box
+      maxW="xl"
+      mx="auto"
+      p={8}
+      bg="white"
+      borderRadius="xl"
+      boxShadow="lg"
+      borderWidth="1px"
+      borderColor="gray.100"
+    >
+      <Heading as="h2" size="xl" mb={8} color="blue.600" textAlign="center">
+        Place Your Bid
+      </Heading>
+  
       {createBidMutation.isSuccess && (
-        <div className="success-message">
+        <Alert status="success" mb={6} borderRadius="md">
+          <AlertIcon />
           Bid created successfully!
-        </div>
+        </Alert>
       )}
-      
+  
       {createBidMutation.isError && (
-        <div className="error-message">
+        <Alert status="error" mb={6} borderRadius="md">
+          <AlertIcon />
           {createBidMutation.error?.response?.data?.message || 'Failed to create bid. Please try again.'}
-        </div>
+        </Alert>
       )}
-      
+  
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="amount">Bid Amount ($)</label>
-          <input
-            type="number"
-            id="amount"
-            name="amount"
-            value={formData.amount}
-            onChange={handleChange}
-            required
-            min="1"
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="duration">Duration (days)</label>
-          <input
-            type="text"
-            id="duration"
-            name="duration"
-            value={formData.duration}
-            onChange={handleChange}
-            required
-            placeholder="e.g., 7 days, 2 weeks"
-          />
-        </div>
-        
-        <div className="form-group">
-          <label htmlFor="message">Proposal Message</label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            required
-            rows="4"
-            placeholder="Describe why you're the best fit for this project..."
-          />
-        </div>
-        
-        <button 
-          type="submit" 
-          disabled={createBidMutation.isPending}
-          className="submit-bid-button"
-        >
-          {createBidMutation.isPending ? 'Submitting...' : 'Submit Bid'}
-        </button>
+        <VStack spacing={6}>
+          <FormControl>
+            <FormLabel color="gray.700">Bid Amount ($)</FormLabel>
+            <Input
+              type="number"
+              id="amount"
+              name="amount"
+              value={formData.amount}
+              onChange={handleChange}
+              focusBorderColor="blue.500"
+              required
+              min="1"
+            />
+          </FormControl>
+  
+          <FormControl>
+            <FormLabel color="gray.700">Duration (days)</FormLabel>
+            <Input
+              type="text"
+              id="duration"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              focusBorderColor="blue.500"
+              required
+              placeholder="e.g., 7 days, 2 weeks"
+            />
+          </FormControl>
+  
+          <FormControl>
+            <FormLabel color="gray.700">Proposal Message</FormLabel>
+            <Textarea
+              id="message"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              focusBorderColor="blue.500"
+              required
+              rows={4}
+              placeholder="Describe why you're the best fit for this project..."
+            />
+          </FormControl>
+  
+          <Button
+            type="submit"
+            colorScheme="blue"
+            width="full"
+            size="lg"
+            isLoading={createBidMutation.isPending}
+            loadingText="Submitting..."
+            _hover={{ bg: 'blue.600' }}
+          >
+            Submit Bid
+          </Button>
+        </VStack>
       </form>
-    </div>
+    </Box>
   );
 };
 
