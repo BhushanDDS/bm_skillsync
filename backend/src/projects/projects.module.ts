@@ -11,6 +11,7 @@ import { SkillsModule } from 'src/skills/skills.module';
 @Module({
   imports:[SkillsModule,UsersModule,AuthModule,TypeOrmModule.forFeature([Project])],
   controllers: [ProjectsController],
-  providers: [ProjectsService]
+  providers: [ProjectsService],
+  exports:[ProjectsService]
 })
 export class ProjectsModule {}

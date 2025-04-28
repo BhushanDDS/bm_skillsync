@@ -52,6 +52,7 @@ export class ProjectsService {
     if (!freelancer) throw new NotFoundException('Freelancer not found');
     
     project.freelancer = freelancer;
+    project.status="assigned";
     return this.projectRepo.save(project);
   }
 
@@ -143,6 +144,26 @@ try {
   throw new InternalServerErrorException('Failed to load projects');
 }
    }
+
+   getAllProjectsFreelancer(userId: number) {
+    try {
+      return this.projectRepo.findBy({
+        freelancer:{id:userId}    });} 
+        catch (error) {
+      throw new InternalServerErrorException('Failed to load projects');
+    }
+  }
+
+//   async checkIfBidded(userId: number, projectId: number) {
+//     const bid = await this.bidrepo.findOne({
+//         where: {
+//             freelancer: { id: userId },
+//             project: { id: projectId }
+//         }
+//     });
+//     return !!bid; // returns true if bid found
+// }
+
   
 }
 

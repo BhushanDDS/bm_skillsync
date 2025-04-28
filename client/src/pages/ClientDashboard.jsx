@@ -6,6 +6,7 @@ import { EditIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import ProjectList from '../components/client/ProjectList.jsx'; // <-- import it here (adjust path if needed)
+import FreelancersProjects from '../components/project/FreelancersProjects.jsx';
 
 function ClientDashboard() {
   const { user, logout } = useUser();
@@ -61,8 +62,19 @@ function ClientDashboard() {
             >
               My Campaigns
             </ChakraLink>
-          </VStack>
 
+          <ChakraLink
+              as={Link}
+              to="/"
+              fontWeight="medium"
+              _hover={{ textDecoration: 'none', bg: 'blue.700' }}
+              p={2}
+              borderRadius="md"
+              textAlign="center"
+            >
+              return to Home
+            </ChakraLink>
+          </VStack>
           {/* Logout Button */}
           <Button 
             onClick={handleLogout} 

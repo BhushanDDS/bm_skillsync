@@ -5,6 +5,7 @@ import { Box, Flex, Avatar, Text, IconButton, VStack, Link as ChakraLink, Headin
 import { EditIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import FreelancersProjects from '../components/project/FreelancersProjects';
 
 function FreelancerDashboard() {
   const { user, logout } = useUser();
@@ -60,6 +61,18 @@ function FreelancerDashboard() {
             >
               Campaigns
             </ChakraLink>
+
+            <ChakraLink
+                          as={Link}
+                          to="/"
+                          fontWeight="medium"
+                          _hover={{ textDecoration: 'none', bg: 'blue.700' }}
+                          p={2}
+                          borderRadius="md"
+                          textAlign="center"
+                        >
+                          return to Home
+                        </ChakraLink>
           </VStack>
 
           {/* Logout Button */}
@@ -129,6 +142,9 @@ function FreelancerDashboard() {
             <StatHelpText>This Month</StatHelpText>
           </Stat>
         </SimpleGrid>
+
+
+        <FreelancersProjects/>
       </Box>
     </Flex>
   );

@@ -1,6 +1,7 @@
 import { Box, Heading, Text, Button, Flex } from '@chakra-ui/react';
 import Header from '../components/layout/Header';
 import { Link } from 'react-router-dom';
+import OpenProjects from '../components/project/OpenProjects';
 
 function Home() {
   return (
@@ -55,6 +56,7 @@ function Home() {
           </Button>
         </Flex>
       </Flex>
+
     </Box>
   );
 }

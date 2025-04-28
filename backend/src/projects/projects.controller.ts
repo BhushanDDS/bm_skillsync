@@ -23,6 +23,12 @@ create( @UserId() userId: number,@Body() dto: CreateProjectDto ) {
 getAllProjects(@UserId() userId: number) {
   console.log('userId received:👈', userId); // 👈 Add this
   return this.projectsService.getAllProjects(userId);
+}
+
+@Get('get-projects/freelancer')
+getAllProjectsFreelancer(@UserId() userId: number){
+  console.log('userId received:👈', userId); // 👈 Add this
+  return this.projectsService.getAllProjectsFreelancer(userId);
 
 }
 

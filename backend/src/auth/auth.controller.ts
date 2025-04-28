@@ -45,8 +45,7 @@ async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     
     res.cookie('access_token', newToken.accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      sameSite: 'lax',
       maxAge: 15 * 60 * 1000,
     });
 
