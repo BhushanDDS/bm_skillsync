@@ -156,7 +156,7 @@ async getMe(@Req() req: Request) {
     const user= this.authService.changePassword(userId, oldPassword, newPassword);
     return { message:"password changed" , user}
   }
-
+ 
 
   @Post('forgot')
 async forgotPassword(@Body() body: { email: string }) {

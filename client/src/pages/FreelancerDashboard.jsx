@@ -20,47 +20,33 @@ function FreelancerDashboard() {
       <Box w="250px" bg="blue.600" color="white" p={5}>
         <Flex direction="column" align="center" gap={4}>
           {/* Profile Photo */}
-          <Avatar size="xl" name={user?.name || 'User'} />
-
-          {/* User Name */}
-          <Text fontSize="lg" fontWeight="bold">
-            {user?.name || 'User Name'}
-          </Text>
-
-          {/* Update Profile Icon */}
-          <IconButton
-            icon={<EditIcon />}
-            aria-label="Update Profile"
-            variant="outline"
-            colorScheme="whiteAlpha"
-            size="sm"
-            mt={2}
-          />
+              {/* Profile Photo */}
+           <Avatar
+           size="xl"
+           name={user?.name || 'Client'}
+           src={user?.profileImage || undefined}
+         />
+                   {/* User Name */}
+                   <Text fontSize="lg" fontWeight="bold">
+                     {user?.name || 'Client Name'}
+                   </Text>
+         
+                   {/* Update Profile Icon */}
+                   <Link to="/update-profile">
+           <IconButton
+             icon={<EditIcon />}
+             aria-label="Update Profile"
+             variant="outline"
+             colorScheme="whiteAlpha"
+             size="sm"
+             mt={2}
+           />
+         </Link>
+         
 
           {/* Navigation Links */}
           <VStack spacing={4} mt={8} align="stretch" w="full">
-            <ChakraLink
-              as={Link}
-              to="/create-project"
-              fontWeight="medium"
-              _hover={{ textDecoration: 'none', bg: 'blue.700' }}
-              p={2}
-              borderRadius="md"
-              textAlign="center"
-            >
-              Create Project
-            </ChakraLink>
-            <ChakraLink
-              as={Link}
-              to="/campaigns"
-              fontWeight="medium"
-              _hover={{ textDecoration: 'none', bg: 'blue.700' }}
-              p={2}
-              borderRadius="md"
-              textAlign="center"
-            >
-              Campaigns
-            </ChakraLink>
+       
 
             <ChakraLink
                           as={Link}

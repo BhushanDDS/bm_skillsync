@@ -20,6 +20,7 @@ import ProjectDetails from './components/project/ProjectDetails.jsx';
 import ChatLand from './pages/CharLand.jsx';
 import ForgotPassword from './components/password/ForgotPassword.jsx';
 import ResetPassword from './components/password/ResetPassword.jsx';
+import UpdateProfile from './pages/UpdateProfile.jsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -56,7 +57,7 @@ function App() {
             <Route path='/chat/:projectId' element={<ChatLand/>}/>
             <Route path='/forget/password' element={<ForgotPassword/>}/>
             <Route path='/reset-password' element={<ResetPassword/>}/>
-    
+            <Route path='/update-profile' element={<UpdateProfile/>}/>
     
             <Route path='/freelancer/projectdetails/:projectId' element={<ProjectDetailsFreelancer/>}/>
 

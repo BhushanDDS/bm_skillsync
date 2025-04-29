@@ -1,7 +1,6 @@
 import api from './axios';
 
 
-
 export const bidsApi = {
     createBid: (projectId, data) => api.post(`bids/${projectId}`, data),
     getAllBidsByProjectId: (projectId) => api.get(`/bids/project/${projectId}`),
