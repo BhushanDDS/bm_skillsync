@@ -1,13 +1,19 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
+import { UpdateProfile } from './dto/update-user-dto';
+
+import { UserRole } from 'src/projects/commons/get-role-decorator';
+import { EmailService } from 'src/email/email.service';
 @Injectable()
 export class AuthService {
- 
+
+
     constructor(
         private jwt: JwtService,
-        private usersService: UsersService
+        private usersService: UsersService,
+        private emailService: EmailService // Add this
       ) {}
     
       async register(dto: any) {
@@ -86,7 +92,90 @@ export class AuthService {
         }
       }
 
+
+
+
+      updateProFile(userId: number, fileUrl: string) {
+        this.usersService.updateMilestoneFile(userId,fileUrl);
+
+      }
+      updateUser(userId: number, dto: UpdateProfile) {
+        this.usersService.updateUser(userId,dto);
+      }
+
+      getById(userId: number) {
+
+        const user= this.usersService.findById(userId);
+        return user;
+      }
+
+      async changePassword(userId: number, oldPassword: string, newPassword: string) {
+        const user = await this.usersService.findById(userId);
+        if (!(await bcrypt.compare(oldPassword, user.password))) {
+          throw new UnauthorizedException('Old password is incorrect');
+        }
+        user.password = await bcrypt.hash(newPassword, 10);
+        return this.usersService.saveUser(user);
+      }
+     
       
 
+
+      ///////////////
+      async requestReset(email: string) {
+        // Add null check first
+  if (!email) {
+    throw new BadRequestException('Email is required');
+  }
+
+  // Then trim and validate
+  const trimmedEmail = email.trim();
+  if (!this.emailService.isValidEmail(trimmedEmail)) {
+    throw new BadRequestException('Invalid email format');
+  }
+      
+        // Check user existence AFTER validation
+        const user = await this.usersService.findByEmail(trimmedEmail);
+        if (!user) {
+          return { message: 'If an account exists, a reset link has been sent' };
+        }
+      
+        // Generate token and send email
+        const resetToken = this.jwt.sign(
+          { email: trimmedEmail },
+          { expiresIn: '15m' }
+        );
+      
+        try {
+          await this.emailService.sendPasswordResetEmail(user.email, resetToken);
+          return { message: 'Password reset link sent to your email' };
+        } catch (error) {
+          console.error('Password reset error:', error);
+          throw new HttpException(
+            'Failed to send reset email',
+            HttpStatus.INTERNAL_SERVER_ERROR
+          );
+        }
+      }
+
+      ///////////
+      async resetPassword(token: string, newPassword: string) {
+        try {
+          const { email } = this.jwt.verify(token);
+          const user = await this.usersService.findByEmail(email);
+          
+          if (!user) {
+            throw new Error('User not found');
+          }
+    
+          user.password = await bcrypt.hash(newPassword, 10);
+          await this.usersService.saveUser(user);
+          return { message: 'Password updated successfully' };
+    
+        } catch (error) {
+          throw new Error('Invalid or expired token');
+        }
+      }
+    
 
 }

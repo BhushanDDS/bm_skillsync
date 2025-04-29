@@ -18,6 +18,8 @@ import ProjectDetailsClient from './components/client/ProjectDetailsClient.jsx';
 import ProjectDetailsFreelancer from './components/freelancer/ProjectDetailsFreelancer.jsx';
 import ProjectDetails from './components/project/ProjectDetails.jsx';
 import ChatLand from './pages/CharLand.jsx';
+import ForgotPassword from './components/password/ForgotPassword.jsx';
+import ResetPassword from './components/password/ResetPassword.jsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,6 +54,8 @@ function App() {
             <Route path='/all/projectdetails/:projectId' element={<ProjectDetails/>}/>
             <Route path="/view-projects" element={<ViewProjects/>} />  
             <Route path='/chat/:projectId' element={<ChatLand/>}/>
+            <Route path='/forget/password' element={<ForgotPassword/>}/>
+            <Route path='/reset-password' element={<ResetPassword/>}/>
     
     
             <Route path='/freelancer/projectdetails/:projectId' element={<ProjectDetailsFreelancer/>}/>

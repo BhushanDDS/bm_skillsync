@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { CloudinaryConfigModule } from './config/cloudinary-config.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [   ConfigModule.forRoot({
@@ -26,6 +27,6 @@ import { CloudinaryConfigModule } from './config/cloudinary-config.module';
   synchronize: false,
     logging: ['query', 'error'], 
     logger: 'advanced-console', 
-  }), UsersModule, ProjectsModule, BidsModule, MilestonesModule, MessagesModule, SkillsModule, CategoriesModule, AuthModule,CloudinaryConfigModule]
+  }), UsersModule, ProjectsModule, BidsModule, MilestonesModule, MessagesModule, SkillsModule, CategoriesModule, AuthModule,CloudinaryConfigModule,EmailModule]
 })
 export class AppModule {}

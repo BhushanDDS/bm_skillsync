@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useUser } from '../contexts/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { 
   Box, 
@@ -121,6 +121,7 @@ export const Login = () => {
           >
             Login
           </Button>
+          <Link to={'/forget/password'}>Forget Password</Link>
         </VStack>
       </form>
     </Box>

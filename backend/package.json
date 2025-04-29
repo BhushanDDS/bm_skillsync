@@ -33,6 +33,7 @@
         "multer": "^1.4.5-lts.2",
         "multer-storage-cloudinary": "^4.0.0",
         "mysql2": "^3.14.0",
+        "nodemailer": "^6.10.1",
         "passport-jwt": "^4.0.1",
         "reflect-metadata": "^0.2.2",
         "typeorm": "^0.3.22"
@@ -42,6 +43,7 @@
         "@nestjs/schematics": "^11.0.5",
         "@types/cookie-parser": "^1.4.8",
         "@types/node": "^22.15.1",
+        "@types/nodemailer": "^6.4.17",
         "typescript": "^5.8.3"
     }
 }

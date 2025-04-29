@@ -1,10 +1,14 @@
-import { Body, Controller, Get, Post, Req, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Patch, Post, Req, Res, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login-user-dto';
 import { RegisterDto } from './dto/register-user-dto';
 import { Response ,Request} from 'express';
 import { AuthGuard } from 'src/commons/guards/Authguard';
 import { access } from 'fs';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UserId } from 'src/projects/commons/user.decorator';
+import { UpdateProfile } from './dto/update-user-dto';
+import { CookieAuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -67,7 +71,7 @@ async getMe(@Req() req: Request) {
 }
 
 
-@Post('logout')
+  @Post('logout')
   @UseGuards(AuthGuard)
   async logout(
     @Res({ passthrough: true }) res: Response,
@@ -98,4 +102,77 @@ async getMe(@Req() req: Request) {
     return { message: 'Logged out' };
   }
 
+
+
+  @UseGuards(CookieAuthGuard)
+  @Get('/getUser')
+  getUserById(@UserId() userId:number){
+    return this.authService.getById(userId)
+
+  }
+  @UseGuards(CookieAuthGuard)
+  @Patch('/update-profile')
+  updateProfile(@UserId()userId:number,@Body()dto:UpdateProfile){
+      return this.authService.updateUser(userId,dto);
+  }
+
+  @UseGuards(CookieAuthGuard)
+  @Post('/upload-profile')
+  @UseInterceptors(FileInterceptor('file'))
+ async uploadProfilePicture(
+  @UserId()userId:number,
+  @UploadedFile() file:Express.Multer.File,
+ ){
+
+  if (!file) {
+      throw new Error('No file uploaded');
+    }
+
+    // File URL is provided by Cloudinary via multer
+    const fileUrl = file.path;
+    const user = await this.authService.updateProFile(
+      userId,
+      fileUrl
+    );
+
+    return {
+      message: 'File uploaded successfully',
+      url:fileUrl,
+      user
+    };
+
+
+ 
+
+
+  }
+
+  @UseGuards(CookieAuthGuard)
+  @Patch('change-password')
+  async changePassword(
+    @Body() { oldPassword, newPassword }: { oldPassword: string; newPassword: string },
+    @UserId() userId : number
+  ) {
+    const user= this.authService.changePassword(userId, oldPassword, newPassword);
+    return { message:"password changed" , user}
+  }
+
+
+  @Post('forgot')
+async forgotPassword(@Body() body: { email: string }) {
+  console.log('in controller')
+  console.log(body.email)
+  if (!body?.email) {
+    throw new BadRequestException('Email is required');
+  }
+  return this.authService.requestReset(body.email);
+}
+
+  @Post('reset')
+  async resetPassword(
+    @Body('token') token: string,
+    @Body('newPassword') newPassword: string
+  ) {
+    return this.authService.resetPassword(token, newPassword);
+  }
 }
