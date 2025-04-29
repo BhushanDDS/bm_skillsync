@@ -24,6 +24,7 @@ function OpenProjects() {
     return <p>Error loading projects: {error.message}</p>;
   }
 
+  console.log(projects)
   const filteredProjects = projects?.data?.filter((project) =>
     project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     project.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -38,7 +39,7 @@ function OpenProjects() {
           <ProjectCardOpen
             key={project.id}
             project={project}
-            onClick={() => navigate(`/projectdetails/${project.id}`)} // Navigate to project details
+            onClick={() => navigate(`/all/projectdetails/${project.id}`)} // Navigate to project details
           />
         ))
       )}

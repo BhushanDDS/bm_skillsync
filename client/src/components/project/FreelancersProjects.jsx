@@ -39,7 +39,7 @@ function FreelancersProjects() {
               transition: 'transform 0.2s',
               cursor: 'pointer',
             }}
-            onClick={() => navigate(`/projectdetails/${project.id}`)} // <<< added
+            onClick={() => navigate(`/freelancer/projectdetails/${project.id}`)} // <<< added
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >

@@ -11,6 +11,7 @@ import {
   Flex
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
+import { ProjectMessaging } from '../components/messeging/ProjectMessaging';
 const ProjectMilestones = ({projectId,role}) => {
   const [milestones, setMilestones] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -141,11 +142,14 @@ const ProjectMilestones = ({projectId,role}) => {
         bg: 'blue.50',
         textDecoration: 'none' 
       }}
-    >
+
+
+      >
       Have a Chat
     </Button>
   </Flex>
 </Flex>
+      {/* <ProjectMessaging projectId={projectId}/> */}
       </div>
       {milestones.length === 0 ? (
         <div className="no-milestones">

@@ -17,6 +17,7 @@ import BidCard from './components/bidding/BidCard.jsx';
 import ProjectDetailsClient from './components/client/ProjectDetailsClient.jsx';
 import ProjectDetailsFreelancer from './components/freelancer/ProjectDetailsFreelancer.jsx';
 import ProjectDetails from './components/project/ProjectDetails.jsx';
+import ChatLand from './pages/CharLand.jsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,9 +49,12 @@ function App() {
             <Route path="/" element={<Home/>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/register" element={<Register/>} />
-            <Route path='/projectdetails/:projectId' element={<ProjectDetails/>}/>
-            
+            <Route path='/all/projectdetails/:projectId' element={<ProjectDetails/>}/>
             <Route path="/view-projects" element={<ViewProjects/>} />  
+            <Route path='/chat/:projectId' element={<ChatLand/>}/>
+    
+    
+            <Route path='/freelancer/projectdetails/:projectId' element={<ProjectDetailsFreelancer/>}/>
 
             {/* Protected client routes */}
             <Route element={<ProtectedRoute requiredRole="client" />}>
@@ -66,9 +70,6 @@ function App() {
             {/* Protected freelancer routes */}
             <Route element={<ProtectedRoute requiredRole="freelancer" />}>
               <Route path="/freelancer/dashboard" element={<FreelancerDashboard/>} />
-              <Route path='/projectdetails/:projectId' element={<ProjectDetailsFreelancer/>}/>
-
-
 
               {/* Other freelancer routes */}
             </Route>
