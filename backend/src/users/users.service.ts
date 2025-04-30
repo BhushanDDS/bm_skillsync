@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/user-dto';
-import { UpdateProfile } from './dto/updat-dto';
+import { UpdateProfile } from 'src/auth/dto/pro-pass-dto';
 
 @Injectable()
 export class UsersService {
@@ -36,30 +36,31 @@ export class UsersService {
       }
 
 
-     async updateUser(userId: number, dto: UpdateProfile){
-        const user= await this.repo.findOne({ where: { id:userId } });
-        if(!user){
-          throw new NotFoundException("user not found");
+      async updateUser(userId: number, dto: UpdateProfile): Promise<User> {
+        const user = await this.repo.findOne({ where: { id: userId } });
+        if (!user) {
+          throw new NotFoundException('User not found');
         }
-
-        Object.assign(user, dto);
+        
+        // Only update provided fields
+        if (dto.name) user.name = dto.name;
+        if (dto.bio !== undefined) user.bio = dto.bio;
+        
         return await this.repo.save(user);
       }
-
-      async updateMilestoneFile(userId:number,fileUrl:string){
-        const user= await this.repo.findOne({ where: { id:userId } });
-        if(!user){
-          throw new NotFoundException("user not found");
+    
+      async updateMilestoneFile(userId: number, fileUrl: string): Promise<User> {
+        const user = await this.repo.findOne({ where: { id: userId } });
+        if (!user) {
+          throw new NotFoundException('User not found');
         }
-
-        user.profileImage=fileUrl;
+        
+        user.profileImage = fileUrl;
         return await this.repo.save(user);
       }
-
-    async saveUser(user: User) {
-      return await this.repo.save(user);
-
-    }
-
+    
+      async saveUser(user: User): Promise<User> {
+        return await this.repo.save(user);
+      }
       
 }

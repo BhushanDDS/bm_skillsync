@@ -7,8 +7,8 @@ import { AuthGuard } from 'src/commons/guards/Authguard';
 import { access } from 'fs';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserId } from 'src/projects/commons/user.decorator';
-import { UpdateProfile } from './dto/update-user-dto';
 import { CookieAuthGuard } from './auth.guard';
+import { ChangePasswordDto, UpdateProfile } from './dto/pro-pass-dto';
 
 @Controller('auth')
 export class AuthController {
@@ -106,57 +106,55 @@ async getMe(@Req() req: Request) {
 
   @UseGuards(CookieAuthGuard)
   @Get('/getUser')
-  getUserById(@UserId() userId:number){
-    return this.authService.getById(userId)
-
+  async getUserById(@UserId() userId: number) {
+    return await this.authService.getById(userId);
   }
+
   @UseGuards(CookieAuthGuard)
   @Patch('/update-profile')
-  updateProfile(@UserId()userId:number,@Body()dto:UpdateProfile){
-      return this.authService.updateUser(userId,dto);
+  async updateProfile(@UserId() userId: number, @Body() dto: UpdateProfile) {
+    return await this.authService.updateUser(userId, dto);
   }
 
   @UseGuards(CookieAuthGuard)
   @Post('/upload-profile')
   @UseInterceptors(FileInterceptor('file'))
- async uploadProfilePicture(
-  @UserId()userId:number,
-  @UploadedFile() file:Express.Multer.File,
- ){
-
-  if (!file) {
-      throw new Error('No file uploaded');
+  async uploadProfilePicture(
+    @UserId() userId: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (!file) {
+      throw new BadRequestException('No file uploaded');
     }
-
+    
     // File URL is provided by Cloudinary via multer
     const fileUrl = file.path;
-    const user = await this.authService.updateProFile(
-      userId,
-      fileUrl
-    );
-
+    const user = await this.authService.updateProFile(userId, fileUrl);
+    
     return {
       message: 'File uploaded successfully',
-      url:fileUrl,
+      url: fileUrl,
       user
     };
-
-
- 
-
-
   }
 
   @UseGuards(CookieAuthGuard)
-  @Patch('change-password')
+  @Patch('/change-password')
   async changePassword(
-    @Body() { oldPassword, newPassword }: { oldPassword: string; newPassword: string },
-    @UserId() userId : number
+    @Body() dto: ChangePasswordDto,
+    @UserId() userId: number
   ) {
-    const user= this.authService.changePassword(userId, oldPassword, newPassword);
-    return { message:"password changed" , user}
+    const user = await this.authService.changePassword(
+      userId, 
+      dto.oldPassword, 
+      dto.newPassword
+    );
+    
+    return { 
+      message: 'Password changed successfully',
+      user
+    };
   }
- 
 
   @Post('forgot')
 async forgotPassword(@Body() body: { email: string }) {

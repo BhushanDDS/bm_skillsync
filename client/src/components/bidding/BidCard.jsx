@@ -37,7 +37,7 @@ function BidCard() {
         duration: 3000,
         isClosable: true,
       });
-      nav('client/dashboard');
+      nav('/client/dashboard');
       
 
     },

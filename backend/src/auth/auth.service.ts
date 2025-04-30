@@ -1,11 +1,11 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
-import { UpdateProfile } from './dto/update-user-dto';
 
 import { UserRole } from 'src/projects/commons/get-role-decorator';
 import { EmailService } from 'src/email/email.service';
+import { UpdateProfile } from './dto/pro-pass-dto';
 @Injectable()
 export class AuthService {
 
@@ -93,8 +93,53 @@ export class AuthService {
       }
 
 
-
-
+      async getById(userId: number) {
+        const user = await this.usersService.findById(userId);
+        if (!user) {
+          throw new NotFoundException('User not found');
+        }
+        // Remove sensitive data before returning
+        delete user.password;
+        return user;
+      }
+    
+      async updateUser(userId: number, dto: UpdateProfile)  {
+        const updatedUser = await this.usersService.updateUser(userId, dto);
+        if (!updatedUser) {
+          throw new NotFoundException('User not found');
+        }
+        // Remove sensitive data before returning
+        delete updatedUser.password;
+        return updatedUser;
+      }
+    
+      async updateProFile(userId: number, fileUrl: string) {
+        const updatedUser = await this.usersService.updateMilestoneFile(userId, fileUrl);
+        if (!updatedUser) {
+          throw new NotFoundException('User not found');
+        }
+        // Remove sensitive data before returning
+        delete updatedUser.password;
+        return updatedUser;
+      }
+    
+      async changePassword(userId: number, oldPassword: string, newPassword: string) {
+        const user = await this.usersService.findById(userId);
+        if (!user) {
+          throw new NotFoundException('User not found');
+        }
+        
+        if (!(await bcrypt.compare(oldPassword, user.password))) {
+          throw new UnauthorizedException('Old password is incorrect');
+        }
+        
+        user.password = await bcrypt.hash(newPassword, 10);
+        const updatedUser = await this.usersService.saveUser(user);
+        // Remove sensitive data before returning
+        delete updatedUser.password;
+        return updatedUser;
+      }
+/*
       updateProFile(userId: number, fileUrl: string) {
         this.usersService.updateMilestoneFile(userId,fileUrl);
 
@@ -118,7 +163,7 @@ export class AuthService {
         return this.usersService.saveUser(user);
       }
      
-      
+      */
 
 
       ///////////////
