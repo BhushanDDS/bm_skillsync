@@ -12,7 +12,13 @@ import {
   Alert,
   AlertIcon,
   Flex,
-  useColorModeValue
+  useColorModeValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody
 } from '@chakra-ui/react';
 const AddMilestoneForm = ({ projectId, onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -79,7 +85,7 @@ return (
         <FormControl>
           <FormLabel color="gray.700">Title</FormLabel>
           <Input
-            type="text"
+            type="text" 
             id="title"
             name="title"
             value={formData.title}

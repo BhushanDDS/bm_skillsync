@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom'
 import { useProjectContext } from '../../contexts/ProjectContext'
 import { useForm } from 'react-hook-form'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { Box, Button, FormControl, FormLabel, Input, Textarea, Select, FormErrorMessage, VStack, Heading } from '@chakra-ui/react';
+import { Box, Button,useToast, FormControl, FormLabel, Input, Textarea, Select, FormErrorMessage, VStack, Heading } from '@chakra-ui/react';
 import GoToDashboardButton from '../GoToDashboard'
 function UpdateProject() {
   const { projectId } = useParams(); // Get projectId from the URL
   const { fetchProject, updateProject } = useProjectContext();
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm()
+  const toast = useToast();
 
   // Fetch existing project details
   const { data: project, isLoading } = useQuery({
@@ -19,10 +20,27 @@ function UpdateProject() {
   const updateProjectMutation = useMutation({
     mutationFn: (data) => updateProject({ id: projectId, ...data }),
     onSuccess: () => {
-      alert("Project Updated successfully!");
+
+      toast({
+        title: 'Success',
+        description: 'Project Updated Succesfully',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+
       reset();
     },
     onError: (error) => {
+      toast({
+        title: 'Error',
+        description: 'Updation Failed',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
       console.error("Failed to Update project:", error.response?.data || error.message);
     }
   })

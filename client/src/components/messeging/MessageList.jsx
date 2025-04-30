@@ -22,7 +22,7 @@ export const MessageList = ({ messages, currentUserId }) => {
     h="400px" 
     overflowY="auto" 
     pr={4}
-    bg="grey"
+    bg="white"
     css={{
       '&::-webkit-scrollbar': { width: '8px' },
       '&::-webkit-scrollbar-track': { bg: 'transparent' },

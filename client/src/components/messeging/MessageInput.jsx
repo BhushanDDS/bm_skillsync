@@ -50,7 +50,7 @@ export const MessageInput = ({ onSendMessage, isLoading = false }) => {
       >
         <HStack>
           <Box className="ph ph-upload-simple" color="cyan.400" />
-          <Text fontSize="sm">UPLOAD</Text>
+          {/* <Text fontSize="sm">UPLOAD</Text> */}
         </HStack>
       </FormLabel>
       {attachment && (
@@ -71,7 +71,7 @@ export const MessageInput = ({ onSendMessage, isLoading = false }) => {
           borderColor: 'cyan.300',
           boxShadow: '0 0 0 1px cyan.300'
         }}
-        color="white"
+        color="black"
         disabled={isLoading}
       />
       

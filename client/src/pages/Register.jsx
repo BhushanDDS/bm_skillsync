@@ -17,7 +17,8 @@ import {
   RadioGroup,
   Radio,
   Stack,
-  Text
+  Text,
+  useToast
 } from '@chakra-ui/react';
 export const Register = () => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -26,7 +27,7 @@ export const Register = () => {
   const navigate = useNavigate();
   
   const password = watch("password");
-
+const toast=useToast()
   const onSubmit = async (data) => {
     try {
       // Register the user
@@ -36,6 +37,16 @@ export const Register = () => {
         password: data.password,
         role: data.role
       });
+      
+toast({
+  title: 'Success',
+  description: 'User Registered sccesfully ',
+  status: 'success',
+  duration: 5000,
+  isClosable: true,
+  position: 'top',
+});
+
       navigate('/login');
 
       // // Login after successful registration

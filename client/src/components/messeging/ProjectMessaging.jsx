@@ -42,7 +42,7 @@ export const ProjectMessaging = ({ projectId }) => {
 
   return (
     <Box
-    bg="gray.900"
+    bg="white"
     borderRadius="xl"
     p={6}
     boxShadow="0px 0px 20px rgba(34, 211, 238, 0.2)"

@@ -2,8 +2,15 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { useProjectContext } from '../../contexts/ProjectContext';
-import { Box, Heading, Text, Flex, Badge, Spinner, Stack } from '@chakra-ui/react';
-import GoToDashboardButton from '../GoToDashboard';
+import { Box, Heading, Text, Flex, Badge, Spinner, Stack, Divider,
+  Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure } from '@chakra-ui/react';import GoToDashboardButton from '../GoToDashboard';
 import { useUser } from '../../contexts/UserContext';
 import CreateBid from '../bidding/CreateBid';
 import GetAllBids from '../bidding/GetAllBids';
@@ -11,6 +18,7 @@ import GetAllBids from '../bidding/GetAllBids';
 // import ShowBids from '../bid/ShowBids'; // Assuming this path
 
 function ProjectDetails() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { fetchProject } = useProjectContext();
   const { user } = useUser(); // Get logged-in user info
   const { projectId } = useParams();
@@ -37,24 +45,22 @@ function ProjectDetails() {
   }
 
   const p = project.data; // Shortcut
-
   return (
     <>
       <Box maxW="900px" mx="auto" p={8} bg="gray.50" rounded="lg" shadow="md" mt={6} mb={10}>
-        {/* Project Title */}
-        <Heading textAlign="center" size="xl" mb={8} color="blue.700">
+        <Heading textAlign="center" size="xl" mb={2} color="blue.700">
           {p.title}
         </Heading>
+        <Text textAlign="center" fontSize="sm" color="gray.500" mb={4}>
+          Viewing as <Badge colorScheme="blue" variant="subtle" fontSize="0.8em">{user.role}</Badge>
+        </Text>
 
         <Stack spacing={6}>
-
-          {/* Description */}
           <Box>
             <Heading size="md" mb={2} color="blue.600">Description</Heading>
             <Text color="gray.700">{p.description}</Text>
           </Box>
 
-          {/* Budget and Deadline */}
           <Flex gap={8} flexWrap="wrap">
             <Box>
               <Heading size="sm" mb={1} color="blue.500">Budget</Heading>
@@ -68,10 +74,9 @@ function ProjectDetails() {
             </Box>
           </Flex>
 
-          {/* Skills */}
           <Box>
             <Heading size="md" mb={2} color="blue.600">Skills Required</Heading>
-            {p.skills && p.skills.length > 0 ? (
+            {p.skills?.length > 0 ? (
               <Flex gap={2} wrap="wrap">
                 {p.skills.map((skill, index) => (
                   <Badge key={index} colorScheme="blue" variant="subtle" px={3} py={1} borderRadius="md">
@@ -84,7 +89,6 @@ function ProjectDetails() {
             )}
           </Box>
 
-          {/* Status */}
           <Box>
             <Heading size="md" mb={2} color="blue.600">Status</Heading>
             <Badge
@@ -97,31 +101,40 @@ function ProjectDetails() {
               {p.status}
             </Badge>
           </Box>
-
         </Stack>
       </Box>
 
-      {/* --- Conditional Section Below Project Info --- */}
-
+      {/* --- Bidding Section --- */}
       <Box maxW="900px" mx="auto" p={6} bg="white" rounded="lg" shadow="sm" mb={10}>
-      
+        <Heading size="md" mb={4} color="blue.600">Bids for this Project</Heading>
 
-        {/* ShowBids should be visible for both freelancer and client */}
-        <Box>
+        <Box mb={6}>
           <GetAllBids projectId={p.id} isClDb={false} />
-          pass
         </Box>
 
+       
+{user.role?.includes('freelancer') && (
+  <>
+    <Divider my={4} />
 
-        {user.role?.includes('freelancer') && (
-          <Box mb={8}>
-            <CreateBid projectId={p.id} /> 
-            pass
-          </Box>
-        )}
+    <Button colorScheme="blue" onClick={onOpen}>
+      Submit a Bid
+    </Button>
+
+    <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Submit Your Bid</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <CreateBid projectId={p.id} />
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  </>
+)}
       </Box>
 
-      {/* Go Back Button */}
       <Flex justify="center" mt={10}>
         <GoToDashboardButton />
       </Flex>

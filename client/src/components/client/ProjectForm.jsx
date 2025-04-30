@@ -3,19 +3,40 @@ import { useProjectContext } from '../../contexts/ProjectContext.jsx';
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { projectsApi } from "../../api/project";
-import { Box, Button, FormControl, FormLabel, Input, Textarea, VStack, Heading, Link as ChakraLink } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormLabel, Input,useToast, Textarea, VStack, Heading, Link as ChakraLink } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 export default function ProjectForm() {
   const { register, handleSubmit, reset } = useForm();
   const{createProject}=useProjectContext();
 
+  const toast = useToast();
   const createProjectMutation = useMutation({
     mutationFn: (data) => createProject(data),
     onSuccess: () => {
-      alert("Project created successfully!");
+
+
+      toast({
+        title: 'Success',
+        description: 'Your project has been successfully created.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+
+
       reset();
     },
     onError: (error) => {
+      
+ toast({
+  title: 'Error',
+  description: 'Project Upload Failed.',
+  status: 'error',
+  duration: 5000,
+  isClosable: true,
+  position: 'top',
+});
       console.error("Failed to create project:", error.response?.data || error.message);
     }
   });

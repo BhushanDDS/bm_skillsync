@@ -8,7 +8,13 @@ import MilestonesTable from '../components/milestones/MilestoneTable';
 import {
   Heading,
   Button,
-  Flex
+  Flex,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody
 } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import { ProjectMessaging } from '../components/messeging/ProjectMessaging';
@@ -165,7 +171,7 @@ const ProjectMilestones = ({projectId,role}) => {
         />
       )}
       
-      {showAddForm && (
+      {/* {showAddForm && (
         <div className="modal-overlay">
           <AddMilestoneForm
             projectId={projectId}
@@ -173,7 +179,22 @@ const ProjectMilestones = ({projectId,role}) => {
             onCancel={() => setShowAddForm(false)}
           />
         </div>
-      )}
+      )} */}
+
+<Modal isOpen={showAddForm} onClose={() => setShowAddForm(false)} isCentered size="lg">
+  <ModalOverlay />
+  <ModalContent>
+    <ModalHeader color="blue.600">Add New Milestone</ModalHeader>
+    <ModalCloseButton />
+    <ModalBody pb={6}>
+      <AddMilestoneForm
+        projectId={projectId}
+        onSuccess={handleMilestoneCreated}
+        onCancel={() => setShowAddForm(false)}
+      />
+    </ModalBody>
+  </ModalContent>
+</Modal>
       
       {uploadModal.show && (
         <FileUploadModal

@@ -14,6 +14,7 @@ import {
   Alert, 
   AlertIcon,
   VStack,
+  useToast,
   useColorModeValue
 } from '@chakra-ui/react';
 
@@ -22,23 +23,41 @@ export const Login = () => {
   const { login } = useUser();
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
+  const toast = useToast();
+  
   const onSubmit = async (data) => {
     try {
       const response = await login(data);
-      console.log("loginResponse:",response);
       
       const user = response.data.user;
-      console.log("loginUSERR:",user);
+      toast({
+        title: 'Success',
+        description: 'Login Succesfull',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+
       if (user.role.includes('client')) {
         navigate('/client/dashboard');
       } else if (user.role.includes('freelancer')) {
         navigate('/freelancer/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      
+      toast({
+        title: 'Error',
+        description: 'Login Failed',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+      setError(err.response?.data?.message || '  failed');
     }
-  };return (
+  };
+  return (
     <Box 
       maxW="md" 
       mx="auto" 
