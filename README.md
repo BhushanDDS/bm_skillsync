@@ -3,6 +3,8 @@
 **SKILLSYNC** is a modern web application that bridges the gap between clients and freelancers, offering a seamless platform for posting projects, hiring talent, and managing work efficiently. Built using **NestJS** for the backend and **ReactJS** for the frontend, the platform ensures a robust, scalable, and responsive experience for both parties.
 
 ---
+Project Snap:
+https://drive.google.com/file/d/17XCUdFxVQBbdhs9YcmQqB05T3brhdUDt/view?usp=drive_link
 
 ## 🔧 Tech Stack
 
