@@ -102,6 +102,7 @@ export class ProjectsService {
         let skill = await this.skillRepo.findOneBy(name);
         if (!skill) {
           skill = await this.skillRepo.create(name);
+          this.skillRepo.save(skill);
         }
         return skill;
       })

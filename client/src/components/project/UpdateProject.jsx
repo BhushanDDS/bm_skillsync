@@ -63,12 +63,12 @@ function UpdateProject() {
     const preparedData = {
       ...data,
       budget: parseInt(data.budget),
-      skills: data.skills.split(",").map((skill) => skill.trim()),
+      skills: [...data.skills.split(",").map((skill) => skill.trim())] ,
     }
     console.log("Submitting updated project:", preparedData);
     await updateProjectMutation.mutateAsync({ id: projectId, data: preparedData });  
 }
-
+ 
   if (isLoading) return <p>Loading project...</p>
 
   return (

@@ -58,7 +58,7 @@ export class AuthService {
         try {
           // Verify and check revocation
           const payload = await this.jwt.verifyAsync(oldRefreshToken, {
-            secret: process.env.JWT_REFRESH_SECRET,
+            secret: 'refreshtokensecreat',
           });
     
           // Get fresh user data
@@ -82,7 +82,7 @@ export class AuthService {
       async logout(refreshToken: string) {
         try {
           const payload = await this.jwt.verifyAsync(refreshToken, {
-            secret: process.env.JWT_REFRESH_SECRET,
+            secret: 'refreshtokensecreat',
           });
         
     

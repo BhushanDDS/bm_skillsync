@@ -112,6 +112,12 @@ SMTP_USER=
 SMTP_PASSWORD=
 FRONTEND_URL=http://localhost:5173
 SMTP_FROM="SkillSync <no-reply@skillsync.com>"
+DATABASE=skillsync
+PASSWORD=
+USER_NAME=
+HOST=
+PORT=
+
 ```
 
 Author : BhusahnDDS 

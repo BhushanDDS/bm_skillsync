@@ -10,7 +10,7 @@ export class SkillsService {
     private skillRepo: Repository<Skill>,
   ) {}
 
-  async save(skill: SkillDto) {
+  async save(skill: Skill) {
     return this.skillRepo.save(skill);
   }
 
